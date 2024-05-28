@@ -17,8 +17,12 @@
 		"format:check": "prettier --check ."
 	},
 	"dependencies": {
+		"@radix-ui/react-alert-dialog": "^1.0.5",
+		"@radix-ui/react-slot": "^1.0.2",
+		"@radix-ui/react-toast": "^1.1.5",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
+		"input-otp": "^1.2.4",
 		"lucide-react": "^0.363.0",
 		"next": "15.0.0-rc.0",
 		"react": "19.0.0-rc-6f23540c7d-20240528",
