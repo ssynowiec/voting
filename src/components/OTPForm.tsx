@@ -7,17 +7,19 @@ import {
 } from '@/components/ui/input-otp';
 import { Button } from '@/components/ui/button';
 import { z } from 'zod';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
 	Form,
 	FormControl,
 	FormDescription,
+	FormField,
 	FormItem,
 	FormLabel,
 	FormMessage,
 } from '@/components/ui/form';
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
+import { env } from '@/env';
 
 const FormSchema = z.object({
 	code: z.string().min(6, 'Code must be 6 characters long'),
@@ -31,8 +33,21 @@ export const OTPForm = () => {
 		},
 	});
 
-	const onSubmit = form.handleSubmit((data) => {
-		console.log(data);
+	const onSubmit = form.handleSubmit(async (data) => {
+		const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/join`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+
+		if (!res.ok) {
+			form.setError('code', {
+				type: 'manual',
+				message: res.statusText,
+			});
+		}
 	});
 
 	return (
@@ -41,7 +56,7 @@ export const OTPForm = () => {
 				onSubmit={onSubmit}
 				className="flex w-2/3 flex-col items-center justify-center gap-4"
 			>
-				<Controller
+				<FormField
 					name="code"
 					control={form.control}
 					render={({ field }) => (
