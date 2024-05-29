@@ -17,19 +17,24 @@
 		"format:check": "prettier --check ."
 	},
 	"dependencies": {
+		"@hookform/resolvers": "^3.4.2",
 		"@radix-ui/react-alert-dialog": "^1.0.5",
+		"@radix-ui/react-label": "^2.0.2",
 		"@radix-ui/react-slot": "^1.0.2",
 		"@radix-ui/react-toast": "^1.1.5",
+		"@t3-oss/env-nextjs": "^0.10.1",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.1",
 		"input-otp": "^1.2.4",
+		"jiti": "^1.21.0",
 		"lucide-react": "^0.363.0",
 		"next": "15.0.0-rc.0",
 		"react": "19.0.0-rc-6f23540c7d-20240528",
 		"react-dom": "19.0.0-rc-6f23540c7d-20240528",
 		"sass": "^1.77.2",
 		"tailwind-merge": "^2.3.0",
-		"tailwindcss-animate": "^1.0.7"
+		"tailwindcss-animate": "^1.0.7",
+		"zod": "^3.23.8"
 	},
 	"devDependencies": {
 		"@types/node": "^20.12.12",
@@ -42,6 +47,7 @@
 		"postcss": "^8.4.38",
 		"prettier": "3.2.5",
 		"prettier-plugin-tailwindcss": "^0.5.14",
+		"react-hook-form": "^7.51.5",
 		"tailwindcss": "^3.4.3",
 		"typescript": "^5.4.5",
 		"typescript-eslint": "^7.11.0"
