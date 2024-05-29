@@ -20,16 +20,21 @@ import {
 } from '@/components/ui/form';
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
 import { env } from '@/env';
+import { useSearchParams } from 'next/navigation';
 
 const FormSchema = z.object({
 	code: z.string().min(6, 'Code must be 6 characters long'),
 });
 
 export const OTPForm = () => {
+	const searchParams = useSearchParams();
+
+	const code = searchParams.get('code');
+
 	const form = useForm<z.infer<typeof FormSchema>>({
 		resolver: zodResolver(FormSchema),
 		defaultValues: {
-			code: '',
+			code: code ?? '',
 		},
 	});
 
@@ -84,7 +89,7 @@ export const OTPForm = () => {
 					)}
 				/>
 
-				<Button type="submit">Submit</Button>
+				<Button type="submit">Join</Button>
 			</form>
 		</Form>
 	);
