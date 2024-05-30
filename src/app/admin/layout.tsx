@@ -1,5 +1,13 @@
 import Link from 'next/link';
-import { Bell, CircleUser, Home, Menu, Package2, Search } from 'lucide-react';
+import {
+	Bell,
+	CalendarDays,
+	CircleUser,
+	Home,
+	Menu,
+	Package2,
+	Search,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -21,6 +29,11 @@ interface Link {
 
 const links: Link[] = [
 	{ href: '/admin', label: 'Dashboard', icon: <Home className="h-4 w-4" /> },
+	{
+		href: '/admin/events',
+		label: 'Events',
+		icon: <CalendarDays className="h-4 w-4" />,
+	},
 ];
 
 interface AdminLayoutProps {
