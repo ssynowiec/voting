@@ -49,6 +49,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { useRouter } from 'next/navigation';
+import { env } from '@/env';
 
 const AddNewEventFormSchema = z.object({
 	name: z.string(),
@@ -75,7 +76,23 @@ export const AddNewEventForm = () => {
 	});
 
 	const onSubmit = form.handleSubmit(async (data) => {
-		console.log(data);
+		const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/event`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		});
+
+		if (!res.ok) {
+			const json = await res.json();
+			console.error(json);
+			return;
+		}
+
+		const json = await res.json();
+
+		router.push(`/admin/events/${json.id}`);
 	});
 
 	const { fields, append, remove } = useFieldArray({
