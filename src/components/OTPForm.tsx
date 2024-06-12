@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/form';
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from 'input-otp';
 import { env } from '@/env';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const FormSchema = z.object({
 	code: z.string().min(6, 'Code must be 6 characters long'),
@@ -28,6 +28,7 @@ const FormSchema = z.object({
 
 export const OTPForm = () => {
 	const searchParams = useSearchParams();
+	const router = useRouter();
 
 	const code = searchParams.get('code');
 
@@ -39,7 +40,7 @@ export const OTPForm = () => {
 	});
 
 	const onSubmit = form.handleSubmit(async (data) => {
-		const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/join`, {
+		const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/event/join`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -53,6 +54,10 @@ export const OTPForm = () => {
 				message: res.statusText,
 			});
 		}
+
+		const code = await res.json();
+
+		router.push(`/room/${code}`);
 	});
 
 	return (
@@ -69,6 +74,7 @@ export const OTPForm = () => {
 							<FormLabel>Enter the code</FormLabel>
 							<FormControl>
 								<InputOTP
+									inputMode="text"
 									maxLength={6}
 									{...field}
 									pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
