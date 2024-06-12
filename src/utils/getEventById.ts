@@ -4,19 +4,12 @@ import { z } from 'zod';
 const statusEnum = z.enum(['active', 'draft', 'archived']);
 const progressEnum = z.enum(['not-started', 'in-progress', 'completed']);
 
-const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()]);
-type Literal = z.infer<typeof literalSchema>;
-type Json = Literal | { [key: string]: Json } | Json[];
-const jsonSchema: z.ZodType<Json> = z.lazy(() =>
-	z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)]),
-);
-
 export const eventSchema = z.object({
 	id: z.string().uuid(),
 	name: z.string(),
 	description: z.string(),
 	question: z.string(),
-	answers: jsonSchema.array(),
+	answers: z.object({ answer: z.string() }).array(),
 	status: statusEnum,
 	createdAt: z.string(),
 	eventCode: z.string(),
