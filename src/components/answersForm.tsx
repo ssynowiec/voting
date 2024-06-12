@@ -16,8 +16,16 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { type eventSchema } from '@/utils/getEventById';
 
-export const AnswersForm = ({ event, user }) => {
+interface AnswersFormProps {
+	event: z.infer<typeof eventSchema>;
+	user: {
+		id: string;
+	};
+}
+
+export const AnswersForm = ({ event, user }: AnswersFormProps) => {
 	useEffect(() => {
 		const socket = io(env.NEXT_PUBLIC_WS_URL);
 
