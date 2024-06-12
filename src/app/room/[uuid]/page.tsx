@@ -1,5 +1,7 @@
 import { env } from '@/env';
 import { AnswersForm } from '@/components/answersForm';
+import { notFound } from 'next/navigation';
+import { getEventById } from '@/utils/getEventById';
 
 interface RoomParams {
 	params: {
@@ -18,20 +20,34 @@ const getUser = async (uuid: string) => {
 	return await res.json();
 };
 
-const getEvent = async (id: string) => {
-	const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/event/${id}`);
-
-	if (!res.ok) {
-	}
-
-	return await res.json();
-};
-
 const RoomPage = async ({ params: { uuid } }: RoomParams) => {
 	const user = await getUser(uuid);
 	console.log(user);
-	const event = await getEvent(user.event_id);
+	const event = await getEventById(user.event_id);
+
+	if (!event) {
+		return notFound();
+	}
+
 	console.log(event);
+
+	if (user.progress === 'completed') {
+		return (
+			<>
+				<main className="flex min-h-screen flex-col items-center justify-center p-24">
+					<section className="flex flex-col items-center justify-center gap-4">
+						<h1 className="text-3xl font-bold">
+							You cannot vote in this event
+						</h1>
+						<p className="text-lg">
+							You have already voted in this event. Please wait for the results.
+						</p>
+					</section>
+				</main>
+			</>
+		);
+	}
+
 	return (
 		<>
 			<main className="flex min-h-screen flex-col items-center justify-center p-24">
