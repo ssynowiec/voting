@@ -1,24 +1,14 @@
-import { env } from '@/env';
 import { notFound } from 'next/navigation';
+import { getEventById } from '@/utils/getEventById';
+import type { IdParams } from '@/types/idParams';
+import Link from 'next/link';
+import { buttonVariants } from '@/components/ui/button';
+import { CirclePlay } from 'lucide-react';
 
-const getEvent = async (id: string) => {
-	const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/event/${id}`);
-
-	if (!res.ok) {
-		return undefined;
-	}
-
-	return await res.json();
-};
-
-interface EventPageProps {
-	params: {
-		id: string;
-	};
-}
+type EventPageProps = IdParams;
 
 const EventPage = async ({ params: { id } }: EventPageProps) => {
-	const event = await getEvent(id);
+	const event = await getEventById(id);
 
 	if (!event) {
 		return notFound();
@@ -27,6 +17,15 @@ const EventPage = async ({ params: { id } }: EventPageProps) => {
 	return (
 		<div className="flex items-center">
 			<h1 className="text-lg font-semibold md:text-2xl">{event.name}</h1>
+			<div className="ml-auto flex items-center gap-2">
+				<Link
+					className={buttonVariants({ size: 'sm', className: 'h-8 gap-1' })}
+					href={`/admin/events/${event.id}/start`}
+				>
+					<CirclePlay className="h-4 w-4" />
+					Start
+				</Link>
+			</div>
 		</div>
 	);
 };
