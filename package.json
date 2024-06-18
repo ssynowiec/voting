@@ -1,10 +1,10 @@
 {
-	"name": "next-template",
+	"name": "voting-system",
 	"author": "Stanisław Synowiec <stanislaw@ssynowiec.pl> (https://ssynowiec.pl)",
-	"description": "Next.js template with TypeScript, Tailwind CSS, ESLint, Prettier, and more.",
+	"description": "Voting system frontend",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ssynowiec/next-template"
+		"url": "https://github.com/ssynowiec/voting"
 	},
 	"version": "0.1.0",
 	"private": true,
