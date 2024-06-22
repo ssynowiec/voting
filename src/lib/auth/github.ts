@@ -1,6 +1,7 @@
 import { GitHub } from 'arctic';
+import { env } from '@/env';
 
 export const github = new GitHub(
-	process.env.GITHUB_CLIENT_ID!,
-	process.env.GITHUB_CLIENT_SECRET!,
+	env.GITHUB_CLIENT_ID!,
+	env.GITHUB_CLIENT_SECRET!,
 );

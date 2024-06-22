@@ -1,13 +1,14 @@
+import type { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 import { OAuth2RequestError } from 'arctic';
-import { generateIdFromEntropySize } from 'lucia';
-import { github } from '@/lib/auth/github';
-import { lucia } from '@/lib/auth/auth';
+import { google } from '@/lib/auth/google';
 import { env } from '@/env';
+import { lucia } from '@/lib/auth/auth';
+import { generateIdFromEntropySize } from 'lucia';
 
-const getUser = async (githubId: string): Promise<GitHubUser | null> => {
+const getUser = async (googleId: string): Promise<GoogleUser | null> => {
 	const res = await fetch(
-		`${env.NEXT_PUBLIC_API_URL}/admins/github/${githubId}`,
+		`${env.NEXT_PUBLIC_API_URL}/admins/google/${googleId}`,
 	);
 
 	if (!res.ok && res.status === 404) {
@@ -17,16 +18,16 @@ const getUser = async (githubId: string): Promise<GitHubUser | null> => {
 	return await res.json();
 };
 
-const createNewUser = async (githubUser: {
+const createNewUser = async (googleUser: {
 	id: string;
 	email: string;
-	github_id: string;
+	google_id: string;
 	username: string;
 	avatar_url: string;
 }): Promise<void> => {
 	const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/admins`, {
 		method: 'POST',
-		body: JSON.stringify(githubUser),
+		body: JSON.stringify(googleUser),
 		headers: {
 			'Content-Type': 'application/json',
 		},
@@ -39,27 +40,42 @@ const createNewUser = async (githubUser: {
 	return await res.json();
 };
 
-export async function GET(request: Request): Promise<Response> {
+export const GET = async (request: NextRequest): Promise<Response> => {
 	const url = new URL(request.url);
 	const code = url.searchParams.get('code');
 	const state = url.searchParams.get('state');
-	const storedState = cookies().get('github_oauth_state')?.value ?? null;
-	if (!code || !state || !storedState || state !== storedState) {
+
+	if (!code || !state) {
+		return new Response(null, {
+			status: 400,
+		});
+	}
+
+	const codeVerifier = cookies().get('google_oauth_code')?.value ?? null;
+	const storedState = cookies().get('google_oauth_state')?.value ?? null;
+
+	if (!codeVerifier || state !== storedState) {
 		return new Response(null, {
 			status: 400,
 		});
 	}
 
 	try {
-		const tokens = await github.validateAuthorizationCode(code);
-		const githubUserResponse = await fetch('https://api.github.com/user', {
-			headers: {
-				Authorization: `Bearer ${tokens.accessToken}`,
-			},
-		});
-		const githubUser: GitHubUser = await githubUserResponse.json();
+		const tokens = await google.validateAuthorizationCode(code, codeVerifier);
 
-		const existingUser = await getUser(githubUser.id);
+		const googleUserResponse = await fetch(
+			'https://www.googleapis.com/oauth2/v1/userinfo',
+			{
+				headers: {
+					Authorization: `Bearer ${tokens.accessToken}`,
+				},
+			},
+		);
+
+		const googleUser: GoogleUser = await googleUserResponse.json();
+		console.log('googleUser', googleUser);
+
+		const existingUser = await getUser(googleUser.id);
 
 		if (existingUser) {
 			const session = await lucia.createSession(existingUser.id, {});
@@ -81,10 +97,10 @@ export async function GET(request: Request): Promise<Response> {
 
 		await createNewUser({
 			id: userId,
-			email: githubUser.email,
-			github_id: githubUser.id,
-			username: githubUser.login,
-			avatar_url: githubUser.avatar_url,
+			email: googleUser.email,
+			google_id: googleUser.id,
+			username: googleUser.email,
+			avatar_url: googleUser.picture,
 		});
 
 		const session = await lucia.createSession(userId, {});
@@ -112,11 +128,10 @@ export async function GET(request: Request): Promise<Response> {
 			status: 500,
 		});
 	}
-}
+};
 
-interface GitHubUser {
+interface GoogleUser {
 	id: string;
 	email: string;
-	login: string;
-	avatar_url: string;
+	picture: string;
 }
