@@ -61,7 +61,11 @@ const AddNewEventFormSchema = z.object({
 	status: z.string(),
 });
 
-export const AddNewEventForm = () => {
+interface AddNewEventFormProps {
+	authorId: string;
+}
+
+export const AddNewEventForm = ({ authorId }: AddNewEventFormProps) => {
 	const router = useRouter();
 
 	const form = useForm<z.infer<typeof AddNewEventFormSchema>>({
@@ -81,7 +85,7 @@ export const AddNewEventForm = () => {
 			headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(data),
+			body: JSON.stringify({ ...data, authorId }),
 		});
 
 		if (!res.ok) {
