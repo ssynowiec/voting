@@ -1,13 +1,5 @@
 import Link from 'next/link';
-import {
-	Bell,
-	CalendarDays,
-	CircleUser,
-	Home,
-	Menu,
-	Package2,
-	Search,
-} from 'lucide-react';
+import { Bell, CalendarDays, Home, Menu, Package2, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -22,6 +14,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import type { ReactElement, ReactNode } from 'react';
 import { validateRequest } from '@/lib/auth/validateRequests';
 import { redirect } from 'next/navigation';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface Link {
 	href: string;
@@ -44,6 +37,8 @@ interface AdminLayoutProps {
 
 const AdminLayout = async ({ children }: AdminLayoutProps) => {
 	const { user } = await validateRequest();
+
+	console.log(user);
 
 	if (!user) {
 		return redirect('/login');
@@ -131,7 +126,12 @@ const AdminLayout = async ({ children }: AdminLayoutProps) => {
 					<DropdownMenu>
 						<DropdownMenuTrigger asChild>
 							<Button variant="secondary" size="icon" className="rounded-full">
-								<CircleUser className="h-5 w-5" />
+								<Avatar className="border-2">
+									<AvatarImage src={user.avatar_url} />
+									<AvatarFallback>
+										{user.username.substring(0, 2)}
+									</AvatarFallback>
+								</Avatar>
 								<span className="sr-only">Toggle user menu</span>
 							</Button>
 						</DropdownMenuTrigger>

@@ -21,6 +21,7 @@ const createNewUser = async (githubUser: {
 	id: string;
 	github_id: string;
 	username: string;
+	avatar_url: string;
 }): Promise<void> => {
 	const res = await fetch(`${env.NEXT_PUBLIC_API_URL}/admins`, {
 		method: 'POST',
@@ -59,6 +60,7 @@ export async function GET(request: Request): Promise<Response> {
 
 		const existingUser = await getUser(githubUser.id);
 
+		console.log(githubUser);
 		console.log(existingUser);
 
 		if (existingUser) {
@@ -83,6 +85,7 @@ export async function GET(request: Request): Promise<Response> {
 			id: userId,
 			github_id: githubUser.id,
 			username: githubUser.login,
+			avatar_url: githubUser.avatar_url,
 		});
 
 		const session = await lucia.createSession(userId, {});
@@ -115,4 +118,5 @@ export async function GET(request: Request): Promise<Response> {
 interface GitHubUser {
 	id: string;
 	login: string;
+	avatar_url: string;
 }
