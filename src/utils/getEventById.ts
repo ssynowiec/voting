@@ -14,6 +14,7 @@ export const eventSchema = z.object({
 	createdAt: z.string(),
 	eventCode: z.string(),
 	progress: progressEnum,
+	authorId: z.string(),
 });
 
 export const getEventById = async (id: string) => {

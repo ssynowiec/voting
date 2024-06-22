@@ -34,10 +34,19 @@ import {
 	TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { getAllEvents } from '@/utils/getAllEvents';
+
+import { validateRequest } from '@/lib/auth/validateRequests';
+import { redirect } from 'next/navigation';
+import { getEventsByAuthorId } from '@/utils/getEventsByAuthorId';
 
 const EventsPage = async () => {
-	const events = await getAllEvents();
+	const { user } = await validateRequest();
+
+	if (!user) {
+		redirect('/login');
+	}
+
+	const events = await getEventsByAuthorId(user.id);
 
 	if (!events || !events.length) {
 		return (
