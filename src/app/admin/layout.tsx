@@ -1,5 +1,13 @@
 import Link from 'next/link';
-import { Bell, CalendarDays, Home, Menu, Package2, Search } from 'lucide-react';
+import {
+	Bell,
+	CalendarDays,
+	Home,
+	LogOut,
+	Menu,
+	Package2,
+	Search,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -15,6 +23,7 @@ import type { ReactElement, ReactNode } from 'react';
 import { validateRequest } from '@/lib/auth/validateRequests';
 import { redirect } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { signOut } from '@/lib/auth/signOut';
 
 interface Link {
 	href: string;
@@ -141,7 +150,13 @@ const AdminLayout = async ({ children }: AdminLayoutProps) => {
 							<DropdownMenuItem>Settings</DropdownMenuItem>
 							<DropdownMenuItem>Support</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<DropdownMenuItem>Logout</DropdownMenuItem>
+							<form action={signOut}>
+								<Button variant="ghost" className="h-8 text-destructive">
+									<DropdownMenuItem className="cursor-pointer">
+										<LogOut className="mr-2 h-4 w-4" /> Logout
+									</DropdownMenuItem>
+								</Button>
+							</form>
 						</DropdownMenuContent>
 					</DropdownMenu>
 				</header>
