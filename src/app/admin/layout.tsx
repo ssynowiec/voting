@@ -20,6 +20,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import type { ReactElement, ReactNode } from 'react';
+import { validateRequest } from '@/lib/auth/validateRequests';
+import { redirect } from 'next/navigation';
 
 interface Link {
 	href: string;
@@ -40,7 +42,13 @@ interface AdminLayoutProps {
 	children: ReactNode;
 }
 
-const AdminLayout = ({ children }: AdminLayoutProps) => {
+const AdminLayout = async ({ children }: AdminLayoutProps) => {
+	const { user } = await validateRequest();
+
+	if (!user) {
+		return redirect('/login');
+	}
+
 	return (
 		<div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
 			<div className="hidden border-r bg-muted/40 md:block">
