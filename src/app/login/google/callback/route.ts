@@ -88,7 +88,7 @@ export const GET = async (request: NextRequest): Promise<Response> => {
 			return new Response(null, {
 				status: 302,
 				headers: {
-					Location: '/',
+					Location: '/admin',
 				},
 			});
 		}
