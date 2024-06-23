@@ -1,6 +1,7 @@
 import { AddNewEventForm } from '@/components/addNewEventForm';
-import { validateRequest } from '@/lib/auth/validateRequests';
+
 import { redirect } from 'next/navigation';
+import { validateRequest } from '@/utils/validateRequest';
 
 const AddEventPage = async () => {
 	const { user } = await validateRequest();

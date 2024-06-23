@@ -1,8 +1,8 @@
-import { validateRequest } from '@/lib/auth/validateRequests';
 import { getEventById } from '@/utils/getEventById';
 import type { ReactNode } from 'react';
 import type { IdParams } from '@/types/idParams';
 import ProtectedRoute from '@/components/protectedRoute';
+import { validateRequest } from '@/utils/validateRequest';
 
 interface ProtectAuthoredEventLayoutProps extends IdParams {
 	children: ReactNode;

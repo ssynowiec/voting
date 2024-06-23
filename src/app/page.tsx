@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { validateRequest } from '@/lib/auth/validateRequests';
+import { validateRequest } from '@/utils/validateRequest';
 
 const Home = async () => {
 	const { user } = await validateRequest();

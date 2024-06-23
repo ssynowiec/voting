@@ -35,9 +35,9 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 
-import { validateRequest } from '@/lib/auth/validateRequests';
 import { redirect } from 'next/navigation';
 import { getEventsByAuthorId } from '@/utils/getEventsByAuthorId';
+import { validateRequest } from '@/utils/validateRequest';
 
 const EventsPage = async () => {
 	const { user } = await validateRequest();
