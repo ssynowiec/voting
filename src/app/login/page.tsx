@@ -36,14 +36,14 @@ const LoginPage = async () => {
 				>
 					Sign in with Facebook
 				</Link>
-				{/*<Link*/}
-				{/*	href="/login/linkedin"*/}
-				{/*	className={buttonVariants({*/}
-				{/*		className: 'bg-[#0077B5] hover:bg-[#0077B5]/85',*/}
-				{/*	})}*/}
-				{/*>*/}
-				{/*	Sign in with Linkedin*/}
-				{/*</Link>*/}
+				<Link
+					href="http://localhost:4001/login/linkedin"
+					className={buttonVariants({
+						className: 'bg-[#0077B5] hover:bg-[#0077B5]/85',
+					})}
+				>
+					Sign in with Linkedin
+				</Link>
 			</section>
 		</main>
 	);
