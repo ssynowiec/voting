@@ -22,12 +22,12 @@ const LoginPage = async () => {
 				>
 					Sign in with GitHub
 				</Link>
-				{/*<Link*/}
-				{/*	href="/login/google"*/}
-				{/*	className={buttonVariants({ variant: 'outline' })}*/}
-				{/*>*/}
-				{/*	Sign in with Google*/}
-				{/*</Link>*/}
+				<Link
+					href="http://localhost:4001/login/google"
+					className={buttonVariants({ variant: 'outline' })}
+				>
+					Sign in with Google
+				</Link>
 				<Link
 					href="http://localhost:4001/login/facebook"
 					className={buttonVariants({
