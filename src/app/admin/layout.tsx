@@ -20,10 +20,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import type { ReactElement, ReactNode } from 'react';
-import { validateRequest } from '@/lib/auth/validateRequests';
+import { validateRequest } from '@/utils/validateRequest';
 import { redirect } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { signOut } from '@/lib/auth/signOut';
+
+// import { signOut } from '@/lib/auth/signOut';
 
 interface Link {
 	href: string;
@@ -46,7 +47,6 @@ interface AdminLayoutProps {
 
 const AdminLayout = async ({ children }: AdminLayoutProps) => {
 	const { user } = await validateRequest();
-
 	console.log(user);
 
 	if (!user) {
@@ -150,7 +150,7 @@ const AdminLayout = async ({ children }: AdminLayoutProps) => {
 							<DropdownMenuItem>Settings</DropdownMenuItem>
 							<DropdownMenuItem>Support</DropdownMenuItem>
 							<DropdownMenuSeparator />
-							<form action={signOut}>
+							<form action="http://localhost:4001/logout" method="POST">
 								<Button variant="ghost" className="h-8 text-destructive">
 									<DropdownMenuItem className="cursor-pointer">
 										<LogOut className="mr-2 h-4 w-4" /> Logout
