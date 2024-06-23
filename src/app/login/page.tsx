@@ -32,10 +32,18 @@ const LoginPage = async () => {
 				<Link
 					href="/login/facebook"
 					className={buttonVariants({
-						className: 'bg-[#1877F2] hover:bg-[#1877F2]/85',
+						className: 'bg-[#0771FF] hover:bg-[#0771FF]/85',
 					})}
 				>
 					Sign in with Facebook
+				</Link>
+				<Link
+					href="/login/linkedin"
+					className={buttonVariants({
+						className: 'bg-[#0077B5] hover:bg-[#0077B5]/85',
+					})}
+				>
+					Sign in with Linkedin
 				</Link>
 			</section>
 		</main>

@@ -13,6 +13,8 @@ export const env = createEnv({
 		GOOGLE_CLIENT_SECRET: z.string().min(1),
 		FACEBOOK_CLIENT_ID: z.string().min(1),
 		FACEBOOK_CLIENT_SECRET: z.string().min(1),
+		LINKEDIN_CLIENT_ID: z.string().min(1),
+		LINKEDIN_CLIENT_SECRET: z.string().min(1),
 	},
 	runtimeEnv: {
 		NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
@@ -23,6 +25,8 @@ export const env = createEnv({
 		GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
 		FACEBOOK_CLIENT_ID: process.env.FACEBOOK_CLIENT_ID,
 		FACEBOOK_CLIENT_SECRET: process.env.FACEBOOK_CLIENT_SECRET,
+		LINKEDIN_CLIENT_ID: process.env.LINKEDIN_CLIENT_ID,
+		LINKEDIN_CLIENT_SECRET: process.env.LINKEDIN_CLIENT_SECRET,
 	},
 	emptyStringAsUndefined: true,
 });
