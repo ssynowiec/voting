@@ -23,8 +23,6 @@ import type { ReactElement, ReactNode } from 'react';
 import { validateRequest } from '@/utils/validateRequest';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-// import { signOut } from '@/lib/auth/signOut';
-
 interface Link {
 	href: string;
 	label: string;
