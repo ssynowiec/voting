@@ -21,7 +21,6 @@ import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import type { ReactElement, ReactNode } from 'react';
 import { validateRequest } from '@/utils/validateRequest';
-import { redirect } from 'next/navigation';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 // import { signOut } from '@/lib/auth/signOut';
@@ -47,11 +46,6 @@ interface AdminLayoutProps {
 
 const AdminLayout = async ({ children }: AdminLayoutProps) => {
 	const { user } = await validateRequest();
-	console.log(user);
-
-	if (!user) {
-		return redirect('/login');
-	}
 
 	return (
 		<div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
