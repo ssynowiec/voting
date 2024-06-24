@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
 export const validateRequest = async (auth_session: string) => {
 	const response = await fetch('http://localhost:4001/session/me/', {
